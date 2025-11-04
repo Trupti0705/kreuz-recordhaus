@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kreuz Recordhaus — Silence Between Beats</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Urbanist:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Custom -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- background animated blobs -->
+  <canvas id="bgCanvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-dark fixed-top nav-glass">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <i class="bi bi-vinyl brand-icon" aria-hidden="true"></i>
+        <div>
+          <div class="brand-title">KREUZ RECORDHAUS</div>
+          <div class="brand-sub muted">Silence Between Beats — Kreuzberg</div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column align-items-end gap-2">
+        <div class="d-flex gap-2 align-items-center">
+          <div class="search-wrap">
+            <i class="bi bi-search search-ico"></i>
+            <input id="searchInput" class="search-input" type="search" placeholder="Search records..." aria-label="Search records">
+          </div>
+
+          <button id="audioBtn" class="btn btn-sm btn-outline-light" title="Toggle ambient preview">
+            <i class="bi bi-volume-up" id="audioIcon"></i>
+          </button>
+          <audio id="previewAudio" src="assets/audio/preview.mp3" preload="none"></audio>
+        </div>
+
+        <!-- GENRE BUTTONS -->
+        <div id="genreButtons" class="d-flex gap-2">
+          <button class="btn genre-btn active" data-genre="all">All</button>
+          <button class="btn genre-btn" data-genre="techno">Techno</button>
+          <button class="btn genre-btn" data-genre="house">House</button>
+          <button class="btn genre-btn" data-genre="ambient">Ambient</button>
+          <button class="btn genre-btn" data-genre="acid">Acid</button>
+          <button class="btn genre-btn" data-genre="experimental">Experimental</button>
+          
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO: particle canvas positioned here -->
+  <header id="hero" class="hero d-flex align-items-center justify-content-center">
+    <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+    <div class="hero-inner text-center">
+      <h1 class="hero-head">Silence Between <span class="gradient">Beats</span></h1>
+      <p class="hero-lead muted">A curated record-browsing experience inspired by Kreuzberg’s underground.</p>
+      <div class="cta-row mt-3">
+        <button id="exploreBtn" class="btn btn-ghost me-2"><i class="bi bi-play-fill me-2"></i>Explore</button>
+        <button id="staffBtn" class="btn btn-outline-ghost"><i class="bi bi-star-fill me-2"></i>Staff Picks</button>
+      </div>
+      <div class="hero-hint muted mt-4"><i class="bi bi-chevron-down"></i> scroll to browse</div>
+    </div>
+  </header>
+
+  <!-- TIP -->
+  <section class="py-2 filters">
+    <div class="container text-center">
+      <small class="muted">Tip: use search or the genre buttons to quickly discover records. Tags show curation level.</small>
+    </div>
+  </section>
+
+  <!-- MAIN RECORD GRID -->
+  <main id="records" class="container py-5">
+    <h2 class="section-title mb-4">Browse Records</h2>
+    <div class="row g-4" id="recordGrid">
+
+      <!-- 1 -->
+      <div class="col-6 col-md-4 record-item" data-genre="techno" data-tags="RARE,UNDERGROUND">
+        <article class="card record-card" tabindex="0">
+          <div class="card-media">
+            <img src="record1.jpg" alt="record1">
+            <div class="card-tag">RARE</div>
+            <div class="card-overlay">
+              <button class="icon play" title="Preview"><i class="bi bi-play-circle-fill"></i></button>
+              <button class="icon info" title="Details"><i class="bi bi-info-circle-fill"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="title">Echo Chamber</h5>
+            <p class="meta"><span class="artist">Dark Frequenz</span> · Techno</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- 2 -->
+      <div class="col-6 col-md-4 record-item" data-genre="house" data-tags="NEW,CLASSIC">
+        <article class="card record-card" tabindex="0">
+          <div class="card-media">
+            <img src="record2.jpg" alt="record2">
+            <div class="card-tag">NEW</div>
+            <div class="card-overlay">
+              <button class="icon play"><i class="bi bi-play-circle-fill"></i></button>
+              <button class="icon info"><i class="bi bi-info-circle-fill"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="title">Pulse Avenue</h5>
+            <p class="meta"><span class="artist">Modular Soul</span> · House</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- 3 -->
+      <div class="col-6 col-md-4 record-item" data-genre="ambient" data-tags="LIMITED">
+        <article class="card record-card" tabindex="0">
+          <div class="card-media">
+            <img src="record3.jpg" alt="record3">
+            <div class="card-tag">LIMITED</div>
+            <div class="card-overlay">
+              <button class="icon play"><i class="bi bi-play-circle-fill"></i></button>
+              <button class="icon info"><i class="bi bi-info-circle-fill"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="title">Driftforms</h5>
+            <p class="meta"><span class="artist">Echosphere</span> · Ambient</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- 4 -->
+      <div class="col-6 col-md-4 record-item" data-genre="experimental" data-tags="UNDERGROUND">
+        <article class="card record-card" tabindex="0">
+          <div class="card-media">
+            <img src="record4.jpg" alt="record4">
+            <div class="card-tag">UNDERGROUND</div>
+            <div class="card-overlay">
+              <button class="icon play"><i class="bi bi-play-circle-fill"></i></button>
+              <button class="icon info"><i class="bi bi-info-circle-fill"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="title">Collage Noise</h5>
+            <p class="meta"><span class="artist">Fragmento</span> · Experimental</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- 5 -->
+      <div class="col-6 col-md-4 record-item" data-genre="acid" data-tags="LIVE CUT">
+        <article class="card record-card" tabindex="0">
+          <div class="card-media">
+            <img src="record5.jpg" alt="record5">
+            <div class="card-tag">LIVE CUT</div>
+            <div class="card-overlay">
+              <button class="icon play"><i class="bi bi-play-circle-fill"></i></button>
+              <button class="icon info"><i class="bi bi-info-circle-fill"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="title">Neon Tunnels</h5>
+            <p class="meta"><span class="artist">L. Night</span> · Electronic / Acid</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- 6 -->
+      <div class="col-6 col-md-4 record-item" data-genre="minimal" data-tags="CLASSIC">
+        <article class="card record-card" tabindex="0">
+          <div class="card-media">
+            <img src="record6.jpg" alt="record6">
+            <div class="card-tag">CLASSIC</div>
+            <div class="card-overlay">
+              <button class="icon play"><i class="bi bi-play-circle-fill"></i></button>
+              <button class="icon info"><i class="bi bi-info-circle-fill"></i></button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="title">Black Ink</h5>
+            <p class="meta"><span class="artist">Null</span> · Minimal Techno</p>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- STAFF PICKS -->
+  <section id="staffPicks" class="py-5 staff-section">
+    <div class="container">
+      <h3 class="section-title mb-4">Staff Picks</h3>
+      <div class="row g-4">
+        <div class="col-12 col-md-4">
+          <article class="card staff-card">
+            <img src="staff1.jpg" alt="staff1" class="staff-img">
+            <div class="staff-body p-3">
+              <h5 class="mb-1">Midnight Echo</h5>
+              <p class="muted small mb-0">Curated by: Alva — Deep set favourite</p>
+            </div>
+          </article>
+        </div>
+        <div class="col-12 col-md-4">
+          <article class="card staff-card">
+            <img src="staff2.jpg" alt="staff2" class="staff-img">
+            <div class="staff-body p-3">
+              <h5 class="mb-1">Groove Routine</h5>
+              <p class="muted small mb-0">Curated by: Lumen — Vinyl-only pick</p>
+            </div>
+          </article>
+        </div>
+        <div class="col-12 col-md-4">
+          <article class="card staff-card">
+            <img src="staff3.jpg" alt="staff3" class="staff-img">
+            <div class="staff-body p-3">
+              <h5 class="mb-1">Ambient Drift</h5>
+              <p class="muted small mb-0">Curated by: Echosphere — Listening room piece</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- modal -->
+  <div class="modal fade" id="recordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content bg-dark text-light border-0">
+        <div class="modal-body text-center">
+          <img id="modalImage" class="img-fluid mb-3" alt="cover">
+          <div id="modalMeta" class="mb-1"></div>
+          <p class="muted small">“Silence between beats gives rhythm its space.”</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <footer class="py-4 text-center small muted">
+    © 2025 Kreuz Recordhaus — Berlin
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
