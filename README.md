@@ -83,5 +83,5 @@ UI/UX Designer & Frontend Developer
 
 > *“In every silence, there’s rhythm — in every record, there’s a story.”*
 
-## 📁 Project Structure
+
 
